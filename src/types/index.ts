@@ -130,6 +130,8 @@ export enum IpcChannels {
 
 /** Electron API 类型 (通过 contextBridge 暴露) */
 export interface ElectronAPI {
+  /** 获取拖拽文件的路径 (Electron 33+ 替代 File.path) */
+  getPathForFile: (file: File) => string
   /** 选择PDF文件，返回文件路径 */
   selectPdf: () => Promise<string | null>
   /** 选择印章图片，返回文件路径 */
@@ -158,6 +160,10 @@ export interface ElectronAPI {
   listTemplates: () => Promise<StampTemplate[]>
   /** 监听批量处理进度 */
   onBatchProgress: (callback: (progress: BatchProgress) => void) => () => void
+  /** 保存印章库 */
+  saveStamps: (stamps: StampConfig[]) => Promise<boolean>
+  /** 加载印章库 */
+  loadStamps: () => Promise<StampConfig[]>
 }
 
 /** 写入印章的参数 */

@@ -3,13 +3,16 @@
  * 使用 contextBridge 安全地将 Node.js API 暴露给渲染进程
  */
 
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, webUtils } from 'electron'
 
 /**
  * 暴露给渲染进程的 API
  * 所有 IPC 通信都通过此桥接进行，确保安全性
  */
 const electronAPI = {
+  /** 获取拖拽文件的路径 (Electron 33+ 替代 File.path) */
+  getPathForFile: (file: File) => webUtils.getPathForFile(file),
+
   /** 选择PDF文件 */
   selectPdf: () => ipcRenderer.invoke('select-pdf'),
 

@@ -78,8 +78,8 @@ function EmptyState() {
     const files = Array.from(e.dataTransfer.files)
     const pdfFile = files.find((f) => f.name.endsWith('.pdf'))
     if (pdfFile) {
-      // 通过Electron API读取文件
-      const filePath = (pdfFile as any).path
+      // 通过Electron API获取文件路径 (Electron 33+ 需要使用 webUtils)
+      const filePath = window.electronAPI.getPathForFile(pdfFile)
       if (filePath) {
         try {
           const { buffer, pageCount } = await window.electronAPI.readPdf(filePath)
